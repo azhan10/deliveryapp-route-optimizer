@@ -44,7 +44,6 @@ def data_source_table_view(request):
 		message = "The file is missing"
 		error = True
 
-
 	try:
 		file_path_df = pd.read_csv(file_path)
 		file_path_json = json.loads(file_path_df.to_json(orient='records'))

@@ -13,29 +13,30 @@
 # Run the Program: Execute the main function to load data, optimize the routes, and generate CSV files and map links for each route.
 
 
-from math import radians, cos, sin, asin, sqrt
+
 import pandas as pd
 import numpy as np
-import os, json
+import os, json, math
 
 
 """
 
-Calculates the haversine distance
+Calculates the haversine distance (kilometres)
 
 """
 
-def haversine(lon1, lat1, lon2, lat2):
-	lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
-
-	# haversine formula 
-	dlon = lon2 - lon1 
-	dlat = lat2 - lat1 
-	a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
-	c = 2 * asin(sqrt(a)) 
-	r = 6371 
-	return c * r
-
+def haversine(lat1, lon1, lat2, lon2):
+    R = 6371  # Earth radius in km
+    dlat = math.radians(lat2 - lat1)
+    dlon = math.radians(lon2 - lon1)
+    a = (
+        math.sin(dlat / 2) ** 2 +
+        math.cos(math.radians(lat1)) *
+        math.cos(math.radians(lat2)) *
+        math.sin(dlon / 2) ** 2
+    )
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+    return R * c  
 
 
 
@@ -77,7 +78,7 @@ def optimize_routes(locations, max_stops=5):
 
 """
 
-Travel time estimation in miles
+Travel time estimation in kilometres
 
 The speed logic is slower for short hops
 
@@ -85,15 +86,16 @@ The hyperparameters allows users to decide the limits
 
 """
 
-def estimate_travel_time_miles(distance_miles, short_distance_limit=2, medium_distance_limit=6, short_speed=12, medium_speed=25, long_speed=37):
-    if distance_miles < short_distance_limit:  
-        speed_mph = short_speed  
-    elif distance_miles < medium_distance_limit:
-        speed_mph = medium_speed
+def estimate_travel_time_km(distance_km, short_distance_limit=2, medium_distance_limit=10, short_speed=20, medium_speed=40, long_speed=60):
+    # Speed logic: slower for short hops
+    if distance_km < short_distance_limit:
+        speed_kmh = short_speed  
+    elif distance_km < medium_distance_limit:
+        speed_kmh = medium_speed
     else:
-        speed_mph = long_speed
+        speed_kmh = long_speed
+    return (distance_km / speed_kmh) * 60  # minutes
 
-    return (distance_miles / speed_mph) * 60  # minutes
 
 
 """
@@ -141,7 +143,7 @@ def save_to_csv(batch, batch_num, folder="output"):
     for i in range(len(batch) - 1):
         dist = haversine(batch[i]["pickup_lat"], batch[i]["pickup_lng"], batch[i+1]["dropoff_lat"], batch[i+1]["dropoff_lng"])
         total_dist += dist
-        total_time += estimate_travel_time_miles(dist)
+        total_time += estimate_travel_time_km(dist)
 
 
     return {

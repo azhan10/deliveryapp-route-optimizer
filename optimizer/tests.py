@@ -3,53 +3,52 @@ import optimizer.optimize_routes as optimize_routes
 
 class UtilsTestCase(TestCase):
 
-	# """
+	"""
 	
-	# Testing the haversine miles between Manchester Arndale to Manchester Science Park
+	Testing the haversine km between Manchester Arndale to Manchester Science Park
 
-	# Should be ~1.66 miles by road, ~1.55 miles straight-line
+	Should be ~2.67
 
-	# """
-	# def test_haversine_miles(self):
-	# 	arndale_lat, arndale_lon = 53.4848, -2.2399
-	# 	msp_lat, msp_lon = 53.4608, -2.2400
+	"""
+	def test_haversine(self):
+		arndale_lat, arndale_lon = 53.4848, -2.2399
+		msp_lat, msp_lon = 53.4608, -2.2400
 
-	# 	distance = optimize_routes.haversine_miles(arndale_lat, arndale_lon, msp_lat, msp_lon)
+		distance = optimize_routes.haversine(arndale_lat, arndale_lon, msp_lat, msp_lon)
 
-	# 	self.assertAlmostEqual(distance, 1.55, delta=0.1)
-
-	# """
-		
-	# Testing time travel in miles short miles
-	
-	# """
-	# def test_estimate_travel_time_miles_short(self):
-	# 	time = optimize_routes.estimate_travel_time_miles(1)
-	# 	expected = (1 / 12.5) * 60
-	# 	self.assertAlmostEqual(time, expected, places=2)
-
+		self.assertAlmostEqual(distance, 2.6686864462949633, delta=0.1)
 
 	"""
 		
-	Testing time travel in miles medium miles
-
-	pass
+	Testing time travel in short km
 	
 	"""
-	def test_estimate_travel_time_miles_medium(self):
-		time = optimize_routes.estimate_travel_time_miles(5)
-		expected = (5 / 25) * 60
+	def test_estimate_travel_time_km_short(self):
+		time = optimize_routes.estimate_travel_time_km(1)
+		expected = (1 / 20) * 60
 		self.assertAlmostEqual(time, expected, places=2)
 
-	# """
+	"""
 		
-	# Testing time travel in miles long miles
+	Testing time travel in long km
 	
-	# """
-	# def test_estimate_travel_time_miles_long(self):
-	# 	time = optimize_routes.estimate_travel_time_miles(20)
-	# 	expected = (20 / 37.5) * 60
-	# 	self.assertAlmostEqual(time, expected, places=2)
+	"""
+	def test_estimate_travel_time_km_long(self):
+		time = optimize_routes.estimate_travel_time_km(20)
+		expected = (20 / 60) * 60
+		self.assertAlmostEqual(time, expected, places=2)
+
+
+	"""
+		
+	Testing time travel in medium km
+	
+	"""
+	def test_estimate_travel_time_km_medium(self):
+		time = optimize_routes.estimate_travel_time_km(5)
+		expected = (5 / 40) * 60
+		self.assertAlmostEqual(time, expected, places=2)
+
 
 	"""
 		
@@ -59,19 +58,28 @@ class UtilsTestCase(TestCase):
 	def test_optimize_route(self):
 		locations = [
 	        {
+	        	"id":"1",
 	            "pickup_lat": 53.4848,
 	            "pickup_lng": -2.2399,     # Manchester Arndale
 	            "dropoff_lat": 53.4608,
 	            "dropoff_lng": -2.2400     # Manchester Science Park
 	        },
 	        {
+	        	"id":"2",
 	            "pickup_lat": 53.4725,
 	            "pickup_lng": -2.2935,     # Old Trafford
 	            "dropoff_lat": 53.4794,
 	            "dropoff_lng": -2.2453     # Manchester Central Library
+	        },
+	        {
+	        	"id":"3",
+	            "pickup_lat": 53.4608,
+	            "pickup_lng": -2.2400,     # Manchester Science Park
+	            "dropoff_lat": 53.4848,
+	            "dropoff_lng": -2.2399,     # Manchester Arndale
 	        }
 	    ]
 		result = optimize_routes.optimize_routes(locations, max_stops=5)
 		route_ids = [loc["id"] for batch in result for loc in batch]
-		expected_ids = ['1', '2', '3', '4']
+		expected_ids = ['1', '3', '2']
 		self.assertEqual(route_ids, expected_ids)

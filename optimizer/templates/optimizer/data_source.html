@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+   
+    <head>
+    	
+    </head>
+
+    <body>
+
+    	<p>This HTML template renders a data table that displays the content of a CSV file in a clean, readable format.</p>
+
+
+    	<h1>The number of rows: {{data|length}}</h1>
+
+    	{% if error == True %}
+    		<p style="color:red">{{message}}</p>
+    	{% elif data|length == 0 %}
+    		<p style="color:red">There is no data</p>
+    	{% else %}
+    		<table>
+				<tr>
+				  	<th>pickup company name</th>
+					<th>pickup address line 1</th>
+					<th>pickup city</th>
+					<th>pickup postcode</th>
+					<th>pickup email</th>
+					<th>pickup lat</th>
+					<th>pickup lng</th>
+					<th>pickup time from</th>
+					<th>pickup time to</th>
+					<th>Unnamed</th>
+					<th>dropoff company name</th>
+					<th>dropoff address line 1</th>
+					<th>dropoff city</th>
+					<th>dropoff postcode</th>
+					<th>dropoff email</th>
+					<th>dropoff lat</th>
+					<th>dropoff lng</th>
+					<th>dropoff time from</th>
+					<th>dropoff time to</th>
+				</tr>
+				{% for r in data %}
+				<tr>
+				  	<th>{{ r.pickup_company_name }}</th>
+					<th>{{ r.pickup_address_line_1 }}</th>
+					<th>{{ r.pickup_city }}</th>
+					<th>{{ r.pickup_postcode }}</th>
+					<th>{{ r.pickup_email }}</th>
+					<th>{{ r.pickup_lat }}</th>
+					<th>{{ r.pickup_lng }}</th>
+					<th>{{ r.pickup_time_from }}</th>
+					<th>{{ r.pickup_time_to }}</th>
+					<th>{{ r.Unnamed }}</th>
+					<th>{{ r.dropoff_company_name }}</th>
+					<th>{{ r.dropoff_address_line_1 }}</th>
+					<th>{{ r.dropoff_city }}</th>
+					<th>{{ r.dropoff_postcode }}</th>
+					<th>{{ r.dropoff_email }}</th>
+					<th>{{ r.dropoff_lat }}</th>
+					<th>{{ r.dropoff_lng }}</th>
+					<th>{{ r.dropoff_time_from }}</th>
+					<th>{{ r.dropoff_time_to }}</th>
+				</tr> 
+				{% endfor %}
+			</table>
+		{% endif %}
+
+    </body>
+
+</html>

@@ -51,19 +51,27 @@ class UtilsTestCase(TestCase):
 	# 	expected = (20 / 37.5) * 60
 	# 	self.assertAlmostEqual(time, expected, places=2)
 
-	# """
+	"""
 		
-	# Testing the optimised solutions here
+	Testing the optimised solutions here
 	
-	# """
-	# def test_optimize_route(self):
-	# 	locations = [
-	# 		{"id": "1", "address": "A", "lat": 0.0, "lon": 0.0},
-	# 		{"id": "2", "address": "B", "lat": 0.0, "lon": 1.0},
-	# 		{"id": "3", "address": "C", "lat": 1.0, "lon": 1.0},
-	# 		{"id": "4", "address": "D", "lat": 1.0, "lon": 0.0}
-	# 	]
-	# 	result = optimize_routes.optimize_routes(locations, max_stops=5)
-	# 	route_ids = [loc["id"] for batch in result for loc in batch]
-	# 	expected_ids = ['1', '2', '3', '4']
-	# 	self.assertEqual(route_ids, expected_ids)
+	"""
+	def test_optimize_route(self):
+		locations = [
+	        {
+	            "pickup_lat": 53.4848,
+	            "pickup_lng": -2.2399,     # Manchester Arndale
+	            "dropoff_lat": 53.4608,
+	            "dropoff_lng": -2.2400     # Manchester Science Park
+	        },
+	        {
+	            "pickup_lat": 53.4725,
+	            "pickup_lng": -2.2935,     # Old Trafford
+	            "dropoff_lat": 53.4794,
+	            "dropoff_lng": -2.2453     # Manchester Central Library
+	        }
+	    ]
+		result = optimize_routes.optimize_routes(locations, max_stops=5)
+		route_ids = [loc["id"] for batch in result for loc in batch]
+		expected_ids = ['1', '2', '3', '4']
+		self.assertEqual(route_ids, expected_ids)

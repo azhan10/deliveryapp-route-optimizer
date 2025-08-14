@@ -19,10 +19,9 @@ import numpy as np
 import os, json
 
 
-
 """
 
-Calculates the distance
+Calculates the haversine distance
 
 """
 
@@ -130,6 +129,8 @@ def generate_maps_link(pairs):
 
 Save Route to CSV
 
+The routes are saved in a output directory
+
 """
 def save_to_csv(batch, batch_num, folder="output"):
     if not os.path.exists(folder):
@@ -154,7 +155,7 @@ def save_to_csv(batch, batch_num, folder="output"):
 
 """
 
-Runs the process
+Runs the process (find the best routes)
 
 """
 def main(file_path, max_stops=5):
@@ -169,6 +170,6 @@ def main(file_path, max_stops=5):
 	    links.append(result)
 
 	links_df = pd.DataFrame(links)
-	links_df.to_csv(os.path.join('output', 'batch-results.csv'), index=False)
+	links_df.to_csv(os.path.join('output', 'results.csv'), index=False)
 
 	return links

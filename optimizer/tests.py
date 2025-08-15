@@ -1,7 +1,7 @@
 from django.test import TestCase
 import optimizer.optimize_routes as optimize_routes
 
-class UtilsTestCase(TestCase):
+class OptimizeRoutesTestCase(TestCase):
 
 	"""
 	
@@ -24,7 +24,7 @@ class UtilsTestCase(TestCase):
 	
 	"""
 	def test_estimate_travel_time_km_short(self):
-		time = optimize_routes.estimate_travel_time_km(1)
+		time = optimize_routes.estimate_travel_time_km(1, 20)
 		expected = (1 / 20) * 60
 		self.assertAlmostEqual(time, expected, places=2)
 
@@ -34,7 +34,7 @@ class UtilsTestCase(TestCase):
 	
 	"""
 	def test_estimate_travel_time_km_long(self):
-		time = optimize_routes.estimate_travel_time_km(20)
+		time = optimize_routes.estimate_travel_time_km(20, 60)
 		expected = (20 / 60) * 60
 		self.assertAlmostEqual(time, expected, places=2)
 
@@ -45,7 +45,7 @@ class UtilsTestCase(TestCase):
 	
 	"""
 	def test_estimate_travel_time_km_medium(self):
-		time = optimize_routes.estimate_travel_time_km(5)
+		time = optimize_routes.estimate_travel_time_km(5, 40)
 		expected = (5 / 40) * 60
 		self.assertAlmostEqual(time, expected, places=2)
 
@@ -79,7 +79,7 @@ class UtilsTestCase(TestCase):
 	            "dropoff_lng": -2.2399,     # Manchester Arndale
 	        }
 	    ]
-		result = optimize_routes.optimize_routes(locations, max_stops=5)
+		result = optimize_routes.n_nearest_routes(locations, max_stops=5)
 		route_ids = [loc["id"] for batch in result for loc in batch]
 		expected_ids = ['1', '3', '2']
 		self.assertEqual(route_ids, expected_ids)

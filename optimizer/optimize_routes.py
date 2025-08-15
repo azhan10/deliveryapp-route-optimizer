@@ -19,6 +19,29 @@ import numpy as np
 import os, json, math
 
 
+def preprocessing(file_path):
+
+	file_path_df = pd.read_csv(file_path)
+	
+	error = False
+	message = "The data is all good"
+
+	for col in ['pickup_lat', 'pickup_lng', 'dropoff_lat', 'dropoff_lng']:
+		try:
+			file_path_df[col] = file_path_df[col].astype(float)
+		except:
+			error = True
+			message = "The " + str(col) + " contains non-numeric values"
+			break
+
+
+	return {
+		"error": error,
+		"message": message
+	}
+
+
+
 # Calculates the haversine distance (kilometres)
 
 def haversine(lat1, lon1, lat2, lon2):
@@ -128,6 +151,8 @@ def save_to_csv(batch, batch_num, folder="output", speed_kmh=30):
 
 def optimize_routes(file_path, max_stops=5, speed_kmh=30):
 
+	filename = get_filename(file_path)
+
 	location_df = pd.read_csv(file_path)
 
 	nearest_batch = n_nearest_routes(json.loads(location_df.to_json(orient='records')), max_stops=max_stops)
@@ -138,6 +163,10 @@ def optimize_routes(file_path, max_stops=5, speed_kmh=30):
 		links.append(result)
 
 	links_df = pd.DataFrame(links)
-	links_df.to_csv(os.path.join('output', 'results.csv'), index=False)
+	links_df.to_csv(os.path.join('output', (filename + '-results.csv')), index=False)
 
 	return links
+
+
+def get_filename(file_path):
+	return file_path.split('/')[len(file_path.split('/')) - 1].split(".")[0]

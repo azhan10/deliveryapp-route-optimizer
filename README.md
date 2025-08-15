@@ -19,6 +19,7 @@ Some trials have been conducted to check the functions (stored in the "data" dir
 
 ### Improvements
 - Add a select box on interface that shows only those files (to reduce error even further)
+- Have the option to convert to miles.
 
 
 ------------------------

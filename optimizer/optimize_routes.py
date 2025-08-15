@@ -18,6 +18,9 @@ import pandas as pd
 import numpy as np
 import os, json, math
 
+from haversine import haversine, Unit
+
+
 # check CSV file for errors
 def preprocessing(file_path):
 
@@ -44,18 +47,8 @@ def preprocessing(file_path):
 
 # Calculates the haversine distance (kilometres)
 
-def haversine(lat1, lon1, lat2, lon2):
-	R = 6371  # Earth radius in kilometres
-	dlat = math.radians(lat2 - lat1)
-	dlon = math.radians(lon2 - lon1)
-	a = (
-		math.sin(dlat / 2) ** 2 +
-		math.cos(math.radians(lat1)) *
-		math.cos(math.radians(lat2)) *
-		math.sin(dlon / 2) ** 2
-	)
-	c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
-	return R * c  
+def haversine_distance(lat1, lon1, lat2, lon2):
+	return haversine((lat1, lon1), (lat2, lon2))
 
 
 
@@ -73,7 +66,7 @@ def n_nearest_routes(locations, max_stops=5):
 	
 	# Find nearest unvisited
 	while unvisited:
-		nearest = min(unvisited, key=lambda loc: haversine(current["pickup_lat"], current["pickup_lng"], loc["dropoff_lat"], loc["dropoff_lng"]))
+		nearest = min(unvisited, key=lambda loc: haversine_distance(current["pickup_lat"], current["pickup_lng"], loc["dropoff_lat"], loc["dropoff_lng"]))
 		route.append(nearest)
 		unvisited.remove(nearest)
 		current = nearest
@@ -90,9 +83,9 @@ def n_nearest_routes(locations, max_stops=5):
 
 
 
-# Travel time estimation in kilometres
+# Travel time estimation (kilometres)
 
-def estimate_travel_time_km(distance_km, speed_kmh=30):
+def estimate_travel_time(distance_km, speed_kmh=30):
 	return (distance_km / speed_kmh) * 60  # minutes
 
 
@@ -132,9 +125,9 @@ def save_to_csv(batch, batch_num, folder="output", speed_kmh=30):
 	total_dist, total_time = 0, 0
 
 	for i in range(len(batch) - 1):
-		dist = haversine(batch[i]["pickup_lat"], batch[i]["pickup_lng"], batch[i+1]["dropoff_lat"], batch[i+1]["dropoff_lng"])
+		dist = haversine_distance(batch[i]["pickup_lat"], batch[i]["pickup_lng"], batch[i+1]["dropoff_lat"], batch[i+1]["dropoff_lng"])
 		total_dist += dist
-		total_time += estimate_travel_time_km(dist, speed_kmh=speed_kmh)
+		total_time += estimate_travel_time(dist, speed_kmh=speed_kmh)
 
 
 	return {

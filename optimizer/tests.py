@@ -9,26 +9,26 @@ class OptimizeRoutesTestCase(TestCase):
 		arndale_lat, arndale_lon = 53.4848, -2.2399
 		msp_lat, msp_lon = 53.4608, -2.2400
 
-		distance = optimize_routes.haversine(arndale_lat, arndale_lon, msp_lat, msp_lon)
+		distance = optimize_routes.haversine_distance(arndale_lat, arndale_lon, msp_lat, msp_lon)
 
 		self.assertAlmostEqual(distance, 2.6686864462949633, delta=0.1)
 
 	# Testing time travel in short km
-	def test_estimate_travel_time_km_short(self):
-		time = optimize_routes.estimate_travel_time_km(1, 20)
+	def test_estimate_travel_time_short(self):
+		time = optimize_routes.estimate_travel_time(1, 20)
 		expected = (1 / 20) * 60
 		self.assertAlmostEqual(time, expected, places=2)
 
 	# Testing time travel in long km
-	def test_estimate_travel_time_km_long(self):
-		time = optimize_routes.estimate_travel_time_km(20, 60)
+	def test_estimate_travel_time_long(self):
+		time = optimize_routes.estimate_travel_time(20, 60)
 		expected = (20 / 60) * 60
 		self.assertAlmostEqual(time, expected, places=2)
 
 
 	# Testing time travel in medium km
-	def test_estimate_travel_time_km_medium(self):
-		time = optimize_routes.estimate_travel_time_km(5, 40)
+	def test_estimate_travel_time_medium(self):
+		time = optimize_routes.estimate_travel_time(5, 40)
 		expected = (5 / 40) * 60
 		self.assertAlmostEqual(time, expected, places=2)
 

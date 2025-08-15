@@ -3,13 +3,8 @@ import optimizer.optimize_routes as optimize_routes
 
 class OptimizeRoutesTestCase(TestCase):
 
-	"""
-	
-	Testing the haversine km between Manchester Arndale to Manchester Science Park
-
-	Should be ~2.67
-
-	"""
+	# Testing the haversine km between Manchester Arndale to Manchester Science Park
+	# Should be ~2.67
 	def test_haversine(self):
 		arndale_lat, arndale_lon = 53.4848, -2.2399
 		msp_lat, msp_lon = 53.4608, -2.2400
@@ -18,43 +13,27 @@ class OptimizeRoutesTestCase(TestCase):
 
 		self.assertAlmostEqual(distance, 2.6686864462949633, delta=0.1)
 
-	"""
-		
-	Testing time travel in short km
-	
-	"""
+	# Testing time travel in short km
 	def test_estimate_travel_time_km_short(self):
 		time = optimize_routes.estimate_travel_time_km(1, 20)
 		expected = (1 / 20) * 60
 		self.assertAlmostEqual(time, expected, places=2)
 
-	"""
-		
-	Testing time travel in long km
-	
-	"""
+	# Testing time travel in long km
 	def test_estimate_travel_time_km_long(self):
 		time = optimize_routes.estimate_travel_time_km(20, 60)
 		expected = (20 / 60) * 60
 		self.assertAlmostEqual(time, expected, places=2)
 
 
-	"""
-		
-	Testing time travel in medium km
-	
-	"""
+	# Testing time travel in medium km
 	def test_estimate_travel_time_km_medium(self):
 		time = optimize_routes.estimate_travel_time_km(5, 40)
 		expected = (5 / 40) * 60
 		self.assertAlmostEqual(time, expected, places=2)
 
 
-	"""
-		
-	Testing the optimised solutions here
-	
-	"""
+	# Testing the optimised solutions here
 	def test_optimize_route(self):
 		locations = [
 	        {

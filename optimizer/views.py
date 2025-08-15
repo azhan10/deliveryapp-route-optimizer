@@ -21,7 +21,7 @@ def get_filename():
 # Calls the optimize_routes function to generate optimized Google Maps links for each route.
 # Returns these map links as a JSON response, allowing you to see all routes in Google Maps format via an API endpoint.
 
-# Hyperparamters:
+# Hyperparamters (GET request):
 # 	- speed kmh - speed number in kilometres
 # 	- max_stops - the number of max stops
 

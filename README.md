@@ -1,4 +1,29 @@
 
+# AZHAN NOTES
+
+The CSV file for optimize routes are stored in a directory called "output".
+There are pictures of examples on in the "pics" directory.
+The route solution, the greedy nearest neighbour is best to find the best routes.
+The Unit Testing is stored in the tests.py file
+Some trials have been conducted to check the functions (stored in the "data" directory)
+
+
+### Instructions
+
+1. Setup a virtual environment with Python 3: virtualenv -p python3 venv
+2. Install the libaries: pip install -r requirements.txt
+3. Run the server: python manage.py runserver
+4. Run the tests: python manage.py test optimizer 
+
+
+### Improvements
+- Add a select box on interface that shows only those files
+
+
+------------------------
+
+
+
 # Route Optimization Project
 
 ## Overview

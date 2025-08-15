@@ -18,7 +18,7 @@ import pandas as pd
 import numpy as np
 import os, json, math
 
-
+# check CSV file for errors
 def preprocessing(file_path):
 
 	file_path_df = pd.read_csv(file_path)
@@ -167,6 +167,6 @@ def optimize_routes(file_path, max_stops=5, speed_kmh=30):
 
 	return links
 
-
+# Get CSV file name
 def get_filename(file_path):
 	return file_path.split('/')[len(file_path.split('/')) - 1].split(".")[0]

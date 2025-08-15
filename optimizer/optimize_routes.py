@@ -17,8 +17,7 @@
 import pandas as pd
 import numpy as np
 import os, json, math
-
-from haversine import haversine, Unit
+from haversine import haversine
 
 
 # check CSV file for errors

@@ -2,9 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 
 import pandas as pd
-
 import json, os
-
 import optimizer.optimize_routes as optimize_routes
 
 

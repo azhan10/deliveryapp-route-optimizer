@@ -1,13 +1,7 @@
 
-
 from django.urls import path
 
 from . import views
-
-from django.urls import re_path as url
-
-from django.http import HttpResponse
-from django.views.generic import TemplateView
 
 from django.conf import settings
 from django.conf.urls.static import static

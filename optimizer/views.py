@@ -29,6 +29,12 @@ def optimize_route_view(request):
 
 	file_path = os.path.join('data', (get_filename() + '.csv'))
 
+	if os.path.isfile(file_path) == False:
+		return JsonResponse({
+	        'status_code': 404,
+	        'error': 'The file was not found'
+	    })
+
 	try:
 		speed_kmh = int(request.GET['speed_kmh'])
 	except:
@@ -60,19 +66,15 @@ def data_source_table_view(request):
 	file_path = os.path.join('data', (get_filename() + '.csv'))
 
 	error = False
-	message = "Here is all the data"
+	message = "Here is the data"
+	file_path_json = []
 
 	if os.path.isfile(file_path) == False:
-		message = "The file is missing"
+		message = "The file was not found"
 		error = True
-
-	try:
+	else:
 		file_path_df = pd.read_csv(file_path)
 		file_path_json = json.loads(file_path_df.to_json(orient='records'))
-	except:
-		message = "There was an error with the data."
-		error = True
-		file_path_json = []
 
 	context = {
 		"data": file_path_json,

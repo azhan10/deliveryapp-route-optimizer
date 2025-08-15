@@ -60,7 +60,7 @@ def haversine(lat1, lon1, lat2, lon2):
 
 
 # Finds the nearest route
-# Using the Greedy Nearest neighbour (this will find the best routes fastest)
+# Using the Greedy Nearest neighbour (this will find the best routes fastest but there are other options)
 
 def n_nearest_routes(locations, max_stops=5):
 	if not locations:

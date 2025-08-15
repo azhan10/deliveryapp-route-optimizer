@@ -2,7 +2,6 @@ from django.http import JsonResponse
 from django.shortcuts import render
 
 import pandas as pd
-import numpy as np
 
 import json, os
 
@@ -54,8 +53,10 @@ def optimize_route_view(request):
 		max_stops = 5
 
 	routes = optimize_routes.optimize_routes(file_path, speed_kmh=speed_kmh, max_stops=max_stops)
+	map_links = []
 
-	map_links = [x['map_link'] for x in routes]
+	if len(routes) > 0:
+		map_links = [x['map_link'] for x in routes]
 
 	return JsonResponse({
 		"map_links": map_links

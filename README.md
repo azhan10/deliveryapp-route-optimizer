@@ -17,7 +17,7 @@ Some trials have been conducted to check the functions (stored in the "data" dir
 5. Run the tests: python manage.py test optimizer 
 
 
-### Improvements
+### Futher improvements
 - Add a select box on interface that shows only those files (to reduce error even further)
 - Have the option to convert to miles.
 

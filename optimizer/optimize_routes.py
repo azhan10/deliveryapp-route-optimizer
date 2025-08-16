@@ -20,7 +20,7 @@ import os, json, math
 from haversine import haversine
 
 
-# Check CSV file for errors
+# Check CSV file for errors (e.g. empty or None values for coordinates)
 
 def preprocessing(file_path):
 
@@ -30,6 +30,12 @@ def preprocessing(file_path):
 	message = "The data is all good"
 
 	for col in ['pickup_lat', 'pickup_lng', 'dropoff_lat', 'dropoff_lng']:
+
+		if bool(file_path_df[col].isnull().values.any()):
+			error = True
+			message = "The " + str(col) + " contains empty values"
+			break
+
 		try:
 			file_path_df[col] = file_path_df[col].astype(float)
 		except:

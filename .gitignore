@@ -50,5 +50,4 @@ venv/
 *.json
 
 # Any data or extra files generated during project execution
-output/
 results/

@@ -20,7 +20,8 @@ import os, json, math
 from haversine import haversine
 
 
-# check CSV file for errors
+# Check CSV file for errors
+
 def preprocessing(file_path):
 
 	file_path_df = pd.read_csv(file_path)
@@ -52,7 +53,7 @@ def haversine_distance(lat1, lon1, lat2, lon2):
 
 
 # Finds the nearest route
-# Using the Greedy Nearest neighbour (this will find the best routes fastest but there are other options)
+# Using the Greedy Nearest Neighbour (this will find the best routes fastest but there are other options)
 
 def n_nearest_routes(locations, max_stops=5):
 	if not locations:
@@ -124,7 +125,7 @@ def save_to_csv(batch, batch_num, folder="output", speed_kmh=30):
 	total_dist, total_time = 0, 0
 
 	for i in range(len(batch) - 1):
-		dist = haversine_distance(batch[i]["pickup_lat"], batch[i]["pickup_lng"], batch[i+1]["dropoff_lat"], batch[i+1]["dropoff_lng"])
+		dist = haversine_distance(batch[i]["pickup_lat"], batch[i]["pickup_lng"], batch[i]["dropoff_lat"], batch[i]["dropoff_lng"])
 		total_dist += dist
 		total_time += estimate_travel_time(dist, speed_kmh=speed_kmh)
 
@@ -159,6 +160,8 @@ def optimize_routes(file_path, max_stops=5, speed_kmh=30):
 
 	return links
 
+
 # Get CSV file name
+
 def get_filename(file_path):
 	return file_path.split('/')[len(file_path.split('/')) - 1].split(".")[0]

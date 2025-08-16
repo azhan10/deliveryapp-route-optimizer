@@ -11,7 +11,7 @@ Some trials have been conducted to check the functions (stored in the "data" dir
 ### Instructions
 
 1. Clone the project: git clone https://github.com/azhan10/deliveryapp-route-optimizer.git
-2. Navigate to the project and setup a virtual environment with Python 3: virtualenv -p python3 venv && source venv/bin/activate 
+2. Navigate to the project and setup a virtual environment with Python 3: cd deliveryapp-route-optimizer && virtualenv -p python3 venv && source venv/bin/activate 
 3. Install the libaries: pip install -r requirements.txt
 4. Run the server: python manage.py runserver
 5. Run the tests: python manage.py test optimizer 

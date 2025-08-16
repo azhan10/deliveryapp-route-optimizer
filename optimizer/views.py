@@ -19,8 +19,8 @@ def get_filename():
 # Returns these map links as a JSON response, allowing you to see all routes in Google Maps format via an API endpoint.
 
 # Hyperparamters (GET request):
-# 	- speed kmh - speed number in kilometres
-# 	- max_stops - the number of max stops
+# 	- speed kmh -> speed number in kilometres
+# 	- max_stops -> the number of max stops
 
 def optimize_route_view(request):
 

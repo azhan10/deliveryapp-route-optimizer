@@ -93,13 +93,18 @@ class OptimizeRoutesTestCase(TestCase):
 				'pickup_city': 'London',
 				'pickup_postcode': 'EC2M 2AU',
 				'pickup_email': 'billy@deliveryapp.com',
-				'pickup_lat': 51.5181999, 'pickup_lng': -0.083709061, 'pickup_time_from': '08:30:00',
-				'pickup_time_to': '11:00:00','dropoff_company_name': 'Fast Couriers',
+				'pickup_lat': 51.5181999, 
+				'pickup_lng': -0.083709061, 
+				'pickup_time_from': '08:30:00',
+				'pickup_time_to': '11:00:00',
+				'dropoff_company_name': 'Fast Couriers',
 				'dropoff_address_line_1': 'RaporMarketing',
 				'dropoff_city': 'London',
 				'dropoff_postcode': 'EC2A4HJ',
 				'dropoff_email': 'billy@deliveryapp.com',
-				'dropoff_lat': 51.523712, 'dropoff_lng': -0.0835602, 'dropoff_time_from': '12:30:00',
+				'dropoff_lat': 51.523712, 
+				'dropoff_lng': -0.0835602, 
+				'dropoff_time_from': '12:30:00',
 				'dropoff_time_to': '20:30:00'
 			}
 		]
@@ -206,13 +211,18 @@ class OptimizeRoutesTestCase(TestCase):
 				'pickup_city': 'London',
 				'pickup_postcode': 'EC2M 2AU',
 				'pickup_email': 'billy@deliveryapp.com',
-				'pickup_lat': 51.5181999, 'pickup_lng': -0.083709061, 'pickup_time_from': '08:30:00',
-				'pickup_time_to': '11:00:00','dropoff_company_name': 'Fast Couriers',
+				'pickup_lat': 51.5181999, 
+				'pickup_lng': -0.083709061, 
+				'pickup_time_from': '08:30:00',
+				'pickup_time_to': '11:00:00',
+				'dropoff_company_name': 'Fast Couriers',
 				'dropoff_address_line_1': 'RaporMarketing',
 				'dropoff_city': 'London',
 				'dropoff_postcode': 'EC2A4HJ',
 				'dropoff_email': 'billy@deliveryapp.com',
-				'dropoff_lat': 51.523712, 'dropoff_lng': -0.0835602, 'dropoff_time_from': '12:30:00',
+				'dropoff_lat': 51.523712, 
+				'dropoff_lng': -0.0835602, 
+				'dropoff_time_from': '12:30:00',
 				'dropoff_time_to': '20:30:00'
 			}
 		]

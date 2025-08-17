@@ -130,11 +130,10 @@ def save_to_csv(batch, batch_num, folder="output", speed_kmh=30):
 
 	total_dist, total_time = 0, 0
 
-	for i in range(len(batch) - 1):
+	for i in range(len(batch)):
 		dist = haversine_distance(batch[i]["pickup_lat"], batch[i]["pickup_lng"], batch[i]["dropoff_lat"], batch[i]["dropoff_lng"])
 		total_dist += dist
 		total_time += estimate_travel_time(dist, speed_kmh=speed_kmh)
-
 
 	return {
 		"batch": batch_num,

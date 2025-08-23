@@ -75,7 +75,7 @@ def n_nearest_routes(locations, max_stops=5, speed_kmh=30, max_time_minutes=480)
     while unvisited:
         # Find nearest unvisited location
         nearest = min(unvisited, key=lambda loc: haversine_distance(current["pickup_lat"], current["pickup_lng"], loc["dropoff_lat"], loc["dropoff_lng"]))
-        travel_time = (haversine_distance(current["pickup_lat"], current["pickup_lng"], nearest["dropoff_lat"], nearest["dropoff_lng"]) / speed_kmh) * 60
+        travel_time = estimate_travel_time(haversine_distance(current["pickup_lat"], current["pickup_lng"], nearest["dropoff_lat"], nearest["dropoff_lng"]), speed_kmh=speed_kmh)
 
         # Check if adding this location exceeds limits
         if len(route) < max_stops and (total_time + travel_time) <= max_time_minutes:

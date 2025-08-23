@@ -59,32 +59,42 @@ def haversine_distance(lat1, lon1, lat2, lon2):
 
 
 # Finds the nearest route
-# Using the Greedy Nearest Neighbour (this will find the best routes fastest but there are other options)
+# Using the Greedy Nearest Neighbour (this will find the best routes fastest)
+# added a 8 hour (480 minutes) max limit for routes
 
-def n_nearest_routes(locations, max_stops=5):
-	if not locations:
-		return []
+def n_nearest_routes(locations, max_stops=5, speed_kmh=30, max_time_minutes=480):
+    if not locations:
+        return []
 
-	unvisited = locations[1:]  # first one is start
-	current = locations[0]
-	route = [current]
-	batches = []
-	
-	# Find nearest unvisited
-	while unvisited:
-		nearest = min(unvisited, key=lambda loc: haversine_distance(current["pickup_lat"], current["pickup_lng"], loc["dropoff_lat"], loc["dropoff_lng"]))
-		route.append(nearest)
-		unvisited.remove(nearest)
-		current = nearest
+    unvisited = locations[1:]  # Skip first (start)
+    current = locations[0]
+    route = [current]
+    batches = []
+    total_time = 0
 
-		if len(route) == max_stops or not unvisited:
-			batches.append(route)
-			if unvisited:
-				current = unvisited[0]
-				route = [current]
-				unvisited.remove(current)
+    while unvisited:
+        # Find nearest unvisited location
+        nearest = min(unvisited, key=lambda loc: haversine_distance(current["pickup_lat"], current["pickup_lng"], loc["dropoff_lat"], loc["dropoff_lng"]))
+        travel_time = (haversine_distance(current["pickup_lat"], current["pickup_lng"], nearest["dropoff_lat"], nearest["dropoff_lng"]) / speed_kmh) * 60
 
-	return batches
+        # Check if adding this location exceeds limits
+        if len(route) < max_stops and (total_time + travel_time) <= max_time_minutes:
+            route.append(nearest)
+            total_time += travel_time
+            current = nearest
+            unvisited.remove(nearest)
+        else:
+            batches.append(route)
+            if unvisited:
+                current = unvisited[0]
+                route = [current]
+                total_time = 0
+                unvisited.remove(current)
+
+    if route:
+        batches.append(route)
+
+    return batches
 
 
 
@@ -153,7 +163,7 @@ def optimize_routes(file_path, max_stops=5, speed_kmh=30):
 
 	location_df = pd.read_csv(file_path)
 
-	nearest_batch = n_nearest_routes(json.loads(location_df.to_json(orient='records')), max_stops=max_stops)
+	nearest_batch = n_nearest_routes(json.loads(location_df.to_json(orient='records')), max_stops=max_stops, speed_kmh=speed_kmh)
 
 	links = []
 	for i, batch in enumerate(nearest_batch, 1):

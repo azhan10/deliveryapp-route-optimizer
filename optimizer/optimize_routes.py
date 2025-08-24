@@ -60,9 +60,10 @@ def haversine_distance(lat1, lon1, lat2, lon2):
 
 # Finds the nearest route
 # Using the Greedy Nearest Neighbour (this will find the best routes fastest)
-# added a 8 hour (480 minutes) max limit for routes
+# added a 8 hour (480 minutes) max limit for routes or 193 km (~120 miles) max route limit
+# As it finds the shortest distances of routes, it provides the highest probability of on-time deliveries
 
-def n_nearest_routes(locations, max_stops=5, speed_kmh=30, max_time_minutes=480):
+def n_nearest_routes(locations, max_stops=5, speed_kmh=30, max_time_minutes=480, max_kmh_distance=193):
     if not locations:
         return []
 
@@ -71,16 +72,19 @@ def n_nearest_routes(locations, max_stops=5, speed_kmh=30, max_time_minutes=480)
     route = [current]
     batches = []
     total_time = 0
+    total_dist = 0
 
     while unvisited:
         # Find nearest unvisited location
         nearest = min(unvisited, key=lambda loc: haversine_distance(current["pickup_lat"], current["pickup_lng"], loc["dropoff_lat"], loc["dropoff_lng"]))
         travel_time = estimate_travel_time(haversine_distance(current["pickup_lat"], current["pickup_lng"], nearest["dropoff_lat"], nearest["dropoff_lng"]), speed_kmh=speed_kmh)
+        travel_dist = haversine_distance(current["pickup_lat"], current["pickup_lng"], nearest["dropoff_lat"], nearest["dropoff_lng"])
 
         # Check if adding this location exceeds limits
-        if len(route) < max_stops and (total_time + travel_time) <= max_time_minutes:
+        if len(route) < max_stops and ((total_time + travel_time) <= max_time_minutes or (total_dist + travel_dist) <= max_kmh_distance):
             route.append(nearest)
             total_time += travel_time
+            total_dist += travel_dist
             current = nearest
             unvisited.remove(nearest)
         else:
@@ -89,6 +93,7 @@ def n_nearest_routes(locations, max_stops=5, speed_kmh=30, max_time_minutes=480)
                 current = unvisited[0]
                 route = [current]
                 total_time = 0
+                total_dist = 0
                 unvisited.remove(current)
 
     if route:
